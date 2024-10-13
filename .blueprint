@@ -1,0 +1,31 @@
+created:
+    - database/factories/SiswaFactory.php
+    - database/factories/AbsensiFactory.php
+    - database/factories/KelasFactory.php
+    - database/factories/GuruFactory.php
+    - database/factories/MataPelajaranFactory.php
+    - database/factories/NilaiFactory.php
+    - database/factories/TahunAjaranFactory.php
+    - database/migrations/2024_10_13_062530_create_siswas_table.php
+    - database/migrations/2024_10_13_062531_create_absensis_table.php
+    - database/migrations/2024_10_13_062532_create_kelas_table.php
+    - database/migrations/2024_10_13_062533_create_gurus_table.php
+    - database/migrations/2024_10_13_062534_create_mata_pelajarans_table.php
+    - database/migrations/2024_10_13_062535_create_nilais_table.php
+    - database/migrations/2024_10_13_062536_create_tahun_ajarans_table.php
+    - app/Models/Siswa.php
+    - app/Models/Absensi.php
+    - app/Models/Kelas.php
+    - app/Models/Guru.php
+    - app/Models/MataPelajaran.php
+    - app/Models/Nilai.php
+    - app/Models/TahunAjaran.php
+models:
+    User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
+    Siswa: { nama: string, foto: string|null, nis: string, tanggal_lahir: date, alamat: text, kelas_id: 'foreign:Kelas', timestamps: timestamps }
+    Absensi: { tanggal: date, kelas_id: 'foreign:Kelas', siswa_id: 'foreign:Siswa', hadir: 'enum:true,false', alfa: 'enum:true,false', sakit: 'enum:true,false', izin: 'enum:true,false', keterangan: text|null, timestamps: timestamps }
+    Kelas: { nama: string, tahun_ajaran_id: 'foreign:TahunAjaran', wali_kelas_id: 'foreign:Guru', timestamps: timestamps }
+    Guru: { nama: string, nip: string, mata_pelajaran_id: 'foreign:MataPelajaran', timestamps: timestamps }
+    MataPelajaran: { nama: string, kode_mapel: string, timestamps: timestamps }
+    Nilai: { siswa_id: 'foreign:Siswa', mata_pelajaran_id: 'foreign:MataPelajaran', nilai_tugas: integer, nilai_uts: integer, nilai_uas: integer, tahun_ajaran_id: 'foreign:TahunAjaran', timestamps: timestamps }
+    TahunAjaran: { nama: string, tahun_mulai: year, tahun_selesai: year, timestamps: timestamps }

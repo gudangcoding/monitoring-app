@@ -1,0 +1,56 @@
+models:
+  Siswa:
+    nama: string
+    foto: string|null
+    nis: string
+    tanggal_lahir: date
+    alamat: text
+    kelas_id: foreign:Kelas
+    timestamps: true
+
+  Absensi:
+    tanggal: date
+    kelas_id: foreign:Kelas
+
+  AbsensiDetail:
+    absensi_id: foreign:Absensi
+    siswa_id: foreign:Siswa
+    hadir: enum:true,false
+    alfa: enum:true,false
+    sakit: enum:true,false
+    izin: enum:true,false
+    keterangan: text|null
+    timestamps: true
+
+  Kelas:
+    nama: string
+    tahun_ajaran_id: foreign:TahunAjaran
+    wali_kelas_id: foreign:Guru
+    timestamps: true
+
+  Guru:
+    nama: string
+    nip: string
+    mata_pelajaran_id: foreign:MataPelajaran
+    timestamps: true
+
+  MataPelajaran:
+    nama: string
+    kode_mapel: string
+    timestamps: true
+
+  Nilai:
+    siswa_id: foreign:Siswa
+    mata_pelajaran_id: foreign:MataPelajaran
+    nilai_tugas: integer
+    nilai_uts: integer
+    nilai_uas: integer
+    tahun_ajaran_id: foreign:TahunAjaran
+    timestamps: true
+
+  TahunAjaran:
+    nama: string
+    tahun_mulai: year
+    tahun_selesai: year
+    timestamps: true
+
