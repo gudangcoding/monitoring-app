@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::create('absensis', function (Blueprint $table) {
+        Schema::create('absensi_details', function (Blueprint $table) {
             $table->id();
-            $table->date('tanggal');
-            $table->foreignId('kelas_id')->constrained('Kelas');
+            $table->foreignId('absensi_id')->constrained('Absensis');
             $table->foreignId('siswa_id')->constrained('Siswas');
             $table->enum('hadir', ["true","false"]);
             $table->enum('alfa', ["true","false"]);
@@ -34,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('absensis');
+        Schema::dropIfExists('absensi_details');
     }
 };

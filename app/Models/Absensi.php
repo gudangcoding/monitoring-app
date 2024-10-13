@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Absensi extends Model
 {
@@ -18,12 +19,6 @@ class Absensi extends Model
     protected $fillable = [
         'tanggal',
         'kelas_id',
-        'siswa_id',
-        'hadir',
-        'alfa',
-        'sakit',
-        'izin',
-        'keterangan',
     ];
 
     /**
@@ -35,7 +30,6 @@ class Absensi extends Model
         'id' => 'integer',
         'tanggal' => 'date',
         'kelas_id' => 'integer',
-        'siswa_id' => 'integer',
     ];
 
     public function kelas(): BelongsTo
@@ -43,8 +37,8 @@ class Absensi extends Model
         return $this->belongsTo(\App\Models\Kelas::class);
     }
 
-    public function siswa(): BelongsTo
+    public function absensiDetails(): HasMany
     {
-        return $this->belongsTo(Siswa::class);
+        return $this->hasMany(AbsensiDetail::class);
     }
 }

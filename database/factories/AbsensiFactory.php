@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Absensi;
 use App\Models\Kela;
-use App\Models\Siswa;
 
 class AbsensiFactory extends Factory
 {
@@ -25,12 +24,6 @@ class AbsensiFactory extends Factory
         return [
             'tanggal' => $this->faker->date(),
             'kelas_id' => Kela::factory(),
-            'siswa_id' => Siswa::factory(),
-            'hadir' => $this->faker->randomElement(["true","false"]),
-            'alfa' => $this->faker->randomElement(["true","false"]),
-            'sakit' => $this->faker->randomElement(["true","false"]),
-            'izin' => $this->faker->randomElement(["true","false"]),
-            'keterangan' => $this->faker->word(),
         ];
     }
 }

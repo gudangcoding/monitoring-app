@@ -1,20 +1,23 @@
 created:
     - database/factories/SiswaFactory.php
     - database/factories/AbsensiFactory.php
+    - database/factories/AbsensiDetailFactory.php
     - database/factories/KelasFactory.php
     - database/factories/GuruFactory.php
     - database/factories/MataPelajaranFactory.php
     - database/factories/NilaiFactory.php
     - database/factories/TahunAjaranFactory.php
-    - database/migrations/2024_10_13_062530_create_siswas_table.php
-    - database/migrations/2024_10_13_062531_create_absensis_table.php
-    - database/migrations/2024_10_13_062532_create_kelas_table.php
-    - database/migrations/2024_10_13_062533_create_gurus_table.php
-    - database/migrations/2024_10_13_062534_create_mata_pelajarans_table.php
-    - database/migrations/2024_10_13_062535_create_nilais_table.php
-    - database/migrations/2024_10_13_062536_create_tahun_ajarans_table.php
+    - database/migrations/2024_10_13_071157_create_siswas_table.php
+    - database/migrations/2024_10_13_071158_create_absensis_table.php
+    - database/migrations/2024_10_13_071159_create_absensi_details_table.php
+    - database/migrations/2024_10_13_071200_create_kelas_table.php
+    - database/migrations/2024_10_13_071201_create_gurus_table.php
+    - database/migrations/2024_10_13_071202_create_mata_pelajarans_table.php
+    - database/migrations/2024_10_13_071203_create_nilais_table.php
+    - database/migrations/2024_10_13_071204_create_tahun_ajarans_table.php
     - app/Models/Siswa.php
     - app/Models/Absensi.php
+    - app/Models/AbsensiDetail.php
     - app/Models/Kelas.php
     - app/Models/Guru.php
     - app/Models/MataPelajaran.php
@@ -23,7 +26,8 @@ created:
 models:
     User: { name: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string:100 nullable' }
     Siswa: { nama: string, foto: string|null, nis: string, tanggal_lahir: date, alamat: text, kelas_id: 'foreign:Kelas', timestamps: timestamps }
-    Absensi: { tanggal: date, kelas_id: 'foreign:Kelas', siswa_id: 'foreign:Siswa', hadir: 'enum:true,false', alfa: 'enum:true,false', sakit: 'enum:true,false', izin: 'enum:true,false', keterangan: text|null, timestamps: timestamps }
+    Absensi: { tanggal: date, kelas_id: 'foreign:Kelas', relationships: AbsensiDetail }
+    AbsensiDetail: { absensi_id: 'foreign:Absensi', siswa_id: 'foreign:Siswa', hadir: 'enum:true,false', alfa: 'enum:true,false', sakit: 'enum:true,false', izin: 'enum:true,false', keterangan: text|null, timestamps: timestamps }
     Kelas: { nama: string, tahun_ajaran_id: 'foreign:TahunAjaran', wali_kelas_id: 'foreign:Guru', timestamps: timestamps }
     Guru: { nama: string, nip: string, mata_pelajaran_id: 'foreign:MataPelajaran', timestamps: timestamps }
     MataPelajaran: { nama: string, kode_mapel: string, timestamps: timestamps }
