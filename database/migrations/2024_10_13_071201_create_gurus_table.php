@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('nip');
-            $table->foreignId('mata_pelajaran_id')->constrained('MataPelajarans');
+            $table->foreignId('mata_pelajaran_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
 

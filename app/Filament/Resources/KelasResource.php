@@ -30,6 +30,9 @@ class KelasResource extends Resource
                     ->maxLength(255),
                 Select::make('tahun_ajaran_id')
                     ->relationship('tahunAjaran', 'nama')
+                    ->preload()
+                    ->createOptionForm(fn(Form $form) => TahunAjaranResource::form($form) ?? [])
+                    ->editOptionForm(fn(Form $form) => TahunAjaranResource::form($form) ?? [])
                     ->required(),
                 Select::make('wali_kelas_id')
                     ->relationship('waliKelas', 'nama')
