@@ -37,6 +37,9 @@ class SiswaResource extends Resource
                     ->columnSpanFull(),
                 Forms\Components\Select::make('kelas_id')
                     ->relationship('kelas', 'id')
+                    ->preload()
+                    ->createOptionForm(fn(Form $form) => KelasResource::form($form) ?? [])
+                    ->editOptionForm(fn(Form $form) => KelasResource::form($form) ?? [])
                     ->required(),
             ]);
     }

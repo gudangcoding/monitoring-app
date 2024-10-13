@@ -11,6 +11,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -33,6 +34,9 @@ class GuruResource extends Resource
                     ->maxLength(255),
                 Select::make('mata_pelajaran_id')
                     ->relationship('mataPelajaran', 'nama')
+                    ->preload()
+                    ->createOptionForm(fn(Form $form) => MataPelajaranResource::form($form) ?? [])
+                    ->editOptionForm(fn(Form $form) => MataPelajaranResource::form($form) ?? [])
                     ->required(),
             ]);
     }
@@ -41,18 +45,18 @@ class GuruResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nama')
+                TextColumn::make('nama')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('nip')
+                TextColumn::make('nip')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('mataPelajaran.nama')
+                TextColumn::make('mataPelajaran.nama')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

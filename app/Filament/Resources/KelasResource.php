@@ -33,6 +33,9 @@ class KelasResource extends Resource
                     ->required(),
                 Select::make('wali_kelas_id')
                     ->relationship('waliKelas', 'nama')
+                    ->preload()
+                    ->createOptionForm(fn(Form $form) => GuruResource::form($form) ?? [])
+                    ->editOptionForm(fn(Form $form) => GuruResource::form($form) ?? [])
                     ->required(),
             ]);
     }
