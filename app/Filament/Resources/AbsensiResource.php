@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AbsensiResource\Pages;
 use App\Filament\Resources\AbsensiResource\RelationManagers;
 use App\Models\Absensi;
+use App\Models\Siswa;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -31,36 +32,21 @@ class AbsensiResource extends Resource
                 Forms\Components\DatePicker::make('tanggal')
                     ->required()
                     ->label('Tanggal'),
+
                 Forms\Components\Select::make('kelas_id')
+                    ->label('Pilih Kelas')
                     ->relationship('kelas', 'nama')
                     ->required()
-                    ->label('Kelas'),
-                Forms\Components\Repeater::make('absensi_details')
-                    ->relationship('absensiDetails') // relationship to AbsensiDetail
-                    ->schema([
-                        Forms\Components\Select::make('siswa_id')
-                            ->label('Siswa')
-                            ->relationship('siswa', 'nama')
-                            ->required(),
-                        Forms\Components\Checkbox::make('hadir')
-                            ->label('Hadir')
-                            ->default(false),
-                        Forms\Components\Checkbox::make('alfa')
-                            ->label('Alfa')
-                            ->default(false),
-                        Forms\Components\Checkbox::make('sakit')
-                            ->label('Sakit')
-                            ->default(false),
-                        Forms\Components\Checkbox::make('izin')
-                            ->label('Izin')
-                            ->default(false),
-                        Forms\Components\Textarea::make('keterangan')
-                            ->label('Keterangan')
-                            ->nullable(),
-                    ])
-                    ->columns(12)
+                    ->reactive() // Menjadikan kelas_id dinamis
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        $set('siswa_list', Siswa::where('kelas_id', $state)->get());
+                    }),
+
+                Forms\Components\View::make('components.siswa-table')
                     ->label('Detail Absensi')
-                    ->minItems(1),
+                    ->visible(fn($get) => $get('kelas_id')) // Tampilkan jika kelas_id sudah dipilih
+                    ->statePath('siswa_list')
+                    ->dehydrated(false),
             ]);
     }
 
@@ -68,29 +54,8 @@ class AbsensiResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('tanggal')
-                    ->date()
-                    ->sortable(),
-                TextColumn::make('kelas.id')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('siswa.id')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('hadir'),
-                TextColumn::make('alfa'),
-                TextColumn::make('sakit'),
-                TextColumn::make('izin'),
-                TextColumn::make('keterangan')
-                    ->searchable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('tanggal')->label('Tanggal'),
+                Tables\Columns\TextColumn::make('kelas.nama')->label('Kelas'),
             ])
             ->filters([
                 //

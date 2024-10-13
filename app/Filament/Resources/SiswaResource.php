@@ -26,9 +26,7 @@ class SiswaResource extends Resource
                 Forms\Components\TextInput::make('nama')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('foto')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\FileUpload::make('foto'),
                 Forms\Components\TextInput::make('nis')
                     ->required()
                     ->maxLength(255),
