@@ -37,6 +37,9 @@ class AbsensiResource extends Resource
                     ->label('Pilih Kelas')
                     ->relationship('kelas', 'nama')
                     ->required()
+                    ->preload()
+                    ->createOptionForm(fn(Form $form) => KelasResource::form($form) ?? [])
+                    ->editOptionForm(fn(Form $form) => KelasResource::form($form) ?? [])
                     ->reactive() // Menjadikan kelas_id dinamis
                     ->afterStateUpdated(function ($state, callable $set) {
                         $set('siswa_list', Siswa::where('kelas_id', $state)->get());
@@ -50,6 +53,14 @@ class AbsensiResource extends Resource
             ]);
     }
 
+    /*************  ✨ Codeium Command ⭐  *************/
+    /**
+     * Override the table definition for the resource.
+     *
+     * @param \Filament\Tables\Table $table
+     * @return \Filament\Tables\Table
+     */
+    /******  11c9515c-e79f-40e3-bcfe-737bf9eae8d1  *******/
     public static function table(Table $table): Table
     {
         return $table
